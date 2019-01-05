@@ -36,14 +36,16 @@ def prepare_green_taxi(green_csv, i):
   taxi=pd.read_csv(green_csv,usecols=keep_col)
 
   new_taxi = taxi[keep_col]
-  new_taxi['Pickup_znoe'] = ""
+  new_taxi['Pickup_zone'] = ""
   new_taxi['Dropoff_zone'] = ""
   new_taxi['Dropoff_poi'] = ""
   new_taxi['Day_of_week'] = ""
+  new_taxi['Pickup_hour'] = ""
 
   for i, row in new_taxi.iterrows():
     day = pd.Timestamp(row['lpep_pickup_datetime'])
     new_taxi.at[i,'Day_of_week'] = day.dayofweek
+    new_taxi.at[i,'Pickup_hour'] = day.hour
 
   filename = "../data/green-" + str(i)
   new_taxi.to_csv(filename, index=False)
@@ -54,6 +56,6 @@ if __name__ == "__main__":
     poifile = "../data/rows.csv?accessType=DOWNLOAD"
     taxi_files = glob.glob('../data/green*')
 
-    prepare_poi(poifile)
+    #prepare_poi(poifile)
     for i, green_csv in enumerate(taxi_files):
       prepare_green_taxi(green_csv, i)
