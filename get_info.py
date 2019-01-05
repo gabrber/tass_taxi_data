@@ -13,8 +13,21 @@ def connect_to_db():
   return conn
 
 #
-# get_top_dropoff returns ordered list of (dropoff_poi, count(dropoff_poi))
+# get_tables_pattern return list of tables containing string(pattern)
+#
+def get_tables_pattern(pattern, conn):
+  pattern_tables = []
+  curs = conn.cursor()
+  curs.execute("""SELECT * FROM information_schema.tables
+               WHERE table_schema = 'public'""")
+  for table in curs:
+    if(pattern in table[2]):
+      pattern_tables.append(table[2])
 
+  return pattern_tables
+#
+# get_top_dropoff returns ordered list of (dropoff_poi, count(dropoff_poi))
+#
 def get_top_dropoff(conn):
   dropoff_rank = []
   curs = conn.cursor()
@@ -26,4 +39,5 @@ def get_top_dropoff(conn):
 if __name__ == "__main__":
 
     conn = connect_to_db()
-    top_dropoff = get_top_dropoff(conn)
+    #top_dropoff = get_top_dropoff(conn)
+    taxi_tables = get_tables_pattern("taxi", conn)
