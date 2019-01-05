@@ -9,7 +9,8 @@ CREATE TABLE green_taxi
     "Passenger_count" integer,
     "Pickup_area" text,
     "Dropoff_area" text,
-    "Dropoff_poi" integer
+    "Dropoff_poi" integer,
+    "Day_of_week" integer
 );
 
 CREATE TABLE poi

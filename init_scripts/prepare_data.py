@@ -4,6 +4,7 @@ import sys
 import pandas as pd
 import glob
 import os
+import datetime
 
 def prepare_poi(poifile):
   poi=pd.read_csv(poifile)
@@ -38,6 +39,11 @@ def prepare_green_taxi(green_csv, i):
   new_taxi['Pickup_znoe'] = ""
   new_taxi['Dropoff_zone'] = ""
   new_taxi['Dropoff_poi'] = ""
+  new_taxi['Day_of_week'] = ""
+
+  for i, row in new_taxi.iterrows():
+    day = pd.Timestamp(row['lpep_pickup_datetime'])
+    new_taxi.at[i,'Day_of_week'] = day.dayofweek
 
   filename = "../data/green-" + str(i)
   new_taxi.to_csv(filename, index=False)
