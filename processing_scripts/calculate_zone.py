@@ -75,7 +75,7 @@ def calculate_zones_for_dropoff(conn, curs):
 def calculate_zones_for_poi(conn,curs):
 
     # we get name of tables for taxi drives and taxi zones
-    taxi_zones = get_info.get_tables_pattern("zones", conn)
+    taxi_zones = get_info.get_tables_pattern("taxi_zones", conn)
     pois = get_info.get_tables_pattern("poi", conn)
 
     # we have only one taxi_zones file
