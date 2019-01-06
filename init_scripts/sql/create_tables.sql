@@ -1,3 +1,5 @@
+CREATE EXTENSION postgis;
+
 CREATE TABLE green_taxi
 (
     "lpep_pickup_datetime" timestamp without time zone,

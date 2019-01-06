@@ -56,8 +56,8 @@ def prepare_green_taxi(green_csv, i):
 if __name__ == "__main__":
 
     poifile = "../data/rows.csv?accessType=DOWNLOAD"
-    #taxi_files = glob.glob('../data/green*')
+    taxi_files = glob.glob('../data/green*')
 
     prepare_poi(poifile)
-    #for i, green_csv in enumerate(taxi_files):
-    #  prepare_green_taxi(green_csv, i)
+    for i, green_csv in enumerate(taxi_files):
+      prepare_green_taxi(green_csv, i)
