@@ -15,3 +15,7 @@
 - taxi_zones.shx
 - taxi_zones.dbf
 3. uruchamiamy skrypt ./init_taxi_zones.sh
+
+## Steps3 - obliczenia na tabelach
+1. ./processing_scripts/pre_exercise.py
+2. ./processing_scripts/calculate_zone.py

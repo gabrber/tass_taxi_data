@@ -5,6 +5,8 @@ import pandas as pd
 import glob
 import os
 import datetime
+import csv
+from simpledbf import Dbf5
 
 def prepare_poi(poifile):
   poi=pd.read_csv(poifile)
@@ -19,7 +21,7 @@ def prepare_poi(poifile):
     poi_latitude = str(poi_point[2]).replace(")","")
 
     tmp_poi.at[i,'POI_LONGITUDE'] = poi_longitude
-    tmp_poi.at[i,'POI_LATITUDE'] = poi_longitude
+    tmp_poi.at[i,'POI_LATITUDE'] = poi_latitude
 
   new_poi = tmp_poi[['PLACEID','NAME','FACILITY_T','FACI_DOM','POI_LONGITUDE','POI_LATITUDE']]
   new_poi.to_csv("../data/poi.csv", index=False)
@@ -49,13 +51,13 @@ def prepare_green_taxi(green_csv, i):
 
   filename = "../data/green-" + str(i)
   new_taxi.to_csv(filename, index=False)
-  #os.remove(green_csv)
+  #os.remove(green_csv
 
 if __name__ == "__main__":
 
     poifile = "../data/rows.csv?accessType=DOWNLOAD"
-    taxi_files = glob.glob('../data/green*')
+    #taxi_files = glob.glob('../data/green*')
 
-    #prepare_poi(poifile)
-    for i, green_csv in enumerate(taxi_files):
-      prepare_green_taxi(green_csv, i)
+    prepare_poi(poifile)
+    #for i, green_csv in enumerate(taxi_files):
+    #  prepare_green_taxi(green_csv, i)

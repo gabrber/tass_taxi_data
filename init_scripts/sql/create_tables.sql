@@ -29,3 +29,13 @@ CREATE TABLE place_types
     "TYPEID" integer,
     "NAME" text
 );
+
+CREATE TABLE zones
+(
+    "OBJECTID" integer,
+    "Shape_Leng" double precision,
+    "Shape_Area" double precision,
+    "zone" text,
+    "LocationID" integer,
+    "borough" text
+);

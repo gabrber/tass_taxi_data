@@ -6,12 +6,17 @@ import psycopg2
 def connect_to_db():
   conn = None
   try:
-    conn = psycopg2.connect("dbname = 'tass' user = 'postgres' host = 'localhost' password = 'postgres'")
+    #gab
+    #conn = psycopg2.connect("dbname = 'tass' user = 'postgres' host = 'localhost' password = 'postgres'")
+    #krzysiek
+    conn = psycopg2.connect("dbname = 'tass' user = 'postgres' host = 'localhost' password = 'psql'")
   except psycopg2.DatabaseError as ex:
     print("Error connectiong to database: " + ex.args)
     sys.exit(1)
   return conn
 
+def disconnect_from_db(conn):
+  conn.close()
 #
 # get_tables_pattern return list of tables containing string(pattern)
 #
