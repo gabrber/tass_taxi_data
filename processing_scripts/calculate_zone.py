@@ -72,11 +72,11 @@ def calculate_zones_for_dropoff(conn, curs):
         conn.commit()
 
 
-def calculate_zones_for_poi(conn):
+def calculate_zones_for_poi(conn,curs):
 
     # we get name of tables for taxi drives and taxi zones
     taxi_zones = get_info.get_tables_pattern("zones", conn)
-    pois = get_info.get_tables_pattern("gpoi", conn)
+    pois = get_info.get_tables_pattern("poi", conn)
 
     # we have only one taxi_zones file
     taxi_zone_name = taxi_zones[0]
@@ -98,24 +98,31 @@ def calculate_zones_for_poi(conn):
     for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
         for index2, point in poi_data[['newgeom', 'PLACEID']].iterrows():
             if zone['newgeom'].contains(point['newgeom']) == True:
-                sql = "UPDATE " + poi_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
+                sql = "UPDATE " + poi_name + " SET \"poi_area\" = " + str(zone['gid']) + " WHERE \"PLACEID\" = " + str(point['PLACEID']) + ";"
                 curs.execute(sql)
-                print('Done dropoff' + str(point['id']))
+                print('Done poi' + str(point['PLACEID']))
                 #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                 break
+
+    conn.commit()
 
 if __name__ == "__main__":
 
     conn = get_info.connect_to_db()
 
-
-
     curs = conn.cursor()
 
-    #Add id to our green_taxi table
-    add_id = "ALTER TABLE green_taxi ADD COLUMN id SERIAL PRIMARY KEY"
-    curs.execute(add_id)
-    conn.commit()
+    # ONLY FIRST TIME - Add id to our green_taxi table
+    # add_id = "ALTER TABLE green_taxi ADD COLUMN id SERIAL PRIMARY KEY"
+    # curs.execute(add_id)
+    # conn.commit()
 
-    calculate_zones_for_dropoff(conn, curs)
-    calculate_zones_for_pickup(conn, curs)
+    # add_area poi
+    #add_area_poi = "ALTER TABLE poi ADD COLUMN poi_area Integer"
+    #curs.execute(add_area_poi)
+    #conn.commit()
+
+    #calculate_zones_for_dropoff(conn, curs)
+    #calculate_zones_for_pickup(conn, curs)
+    calculate_zones_for_poi(conn, curs)
+    #calculate_zones_for_pickup(conn, curs)
