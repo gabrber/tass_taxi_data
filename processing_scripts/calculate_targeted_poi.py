@@ -52,7 +52,7 @@ def calculate_zones_for_poi(conn,curs):
 
             for index, poi_d in poi_data[['newgeom', 'PLACEID', 'poi_area']].iterrows():
                 if poi_d['poi_area'] != taxi_point['Dropoff_zone']:
-                    break
+                    continue
                 else:
                     pol = nearest_points(taxi_point['newgeom'], poi_polygon)
                     if poi_d['newgeom'] == pol[1]:
