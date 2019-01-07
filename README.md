@@ -17,7 +17,7 @@
 - taxi_zones.dbf
 3. uruchamiamy skrypt ./init_taxi_zones.sh
 
-* Tylko jeżeli dane nie są ściągnięte, defaultowo są już w repo
+\* Tylko jeżeli dane nie są ściągnięte, defaultowo są już w repo
 
 ## Steps3 - filtracja tabeli
 1. ./processing_scripts/filter_table.py 
