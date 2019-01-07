@@ -30,11 +30,10 @@ def calculate_zones_for_pickup(conn, curs):
         taxi_drives_pickup_data['newgeom'] = taxi_drives_pickup_data['newgeom'].apply(wkt.loads)
 
         #print(taxi_drives_pickup_data['newgeom'])
-
-        for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
-            for index2, point in taxi_drives_pickup_data[['newgeom', 'id']].iterrows():
+        for index2, point in taxi_drives_pickup_data[['newgeom', 'id']].iterrows():
+            for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
                 if zone['newgeom'].contains(point['newgeom']) == True:
-                    sql = "UPDATE " + taxi_drives_name + " SET \"Pickup_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
+                    sql = "UPDATE " + taxi_drives_name + " SET \"Pickup_zone\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
                     print('Done pickup: '+str(point['id']))
                     #print("UPDATE " + taxi_drives_name + " SET \"Pickup_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
@@ -60,10 +59,10 @@ def calculate_zones_for_dropoff(conn, curs):
         taxi_drives_dropoff_data = pd.read_sql(taxi_drives_dropoff_sql, conn)
         taxi_drives_dropoff_data['newgeom'] = taxi_drives_dropoff_data['newgeom'].apply(wkt.loads)
 
-        for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
-            for index2, point in taxi_drives_dropoff_data[['newgeom', 'id']].iterrows():
+        for index2, point in taxi_drives_dropoff_data[['newgeom', 'id']].iterrows():
+            for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
                 if zone['newgeom'].contains(point['newgeom']) == True:
-                    sql = "UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
+                    sql = "UPDATE " + taxi_drives_name + " SET \"Dropoff_zone\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
                     print('Done dropoff: ' + str(point['id']))
                     #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
@@ -95,8 +94,8 @@ def calculate_zones_for_poi(conn,curs):
     poi_data = pd.read_sql(poi_sql, conn)
     poi_data['newgeom'] = poi_data['newgeom'].apply(wkt.loads)
 
-    for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
-        for index2, point in poi_data[['newgeom', 'PLACEID']].iterrows():
+    for index2, point in poi_data[['newgeom', 'PLACEID']].iterrows():
+        for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
             if zone['newgeom'].contains(point['newgeom']) == True:
                 sql = "UPDATE " + poi_name + " SET \"poi_area\" = " + str(zone['gid']) + " WHERE \"PLACEID\" = " + str(point['PLACEID']) + ";"
                 curs.execute(sql)

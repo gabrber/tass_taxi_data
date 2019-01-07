@@ -9,8 +9,8 @@ CREATE TABLE green_taxi
     "Dropoff_longitude" double precision,
     "Dropoff_latitude" double precision,
     "Passenger_count" integer,
-    "Pickup_zone" text,
-    "Dropoff_zone" text,
+    "Pickup_zone" integer,
+    "Dropoff_zone" integer,
     "Dropoff_poi" integer,
     "Day_of_week" integer,
     "Pickup_hour" integer
