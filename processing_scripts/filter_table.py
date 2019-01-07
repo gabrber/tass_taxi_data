@@ -28,4 +28,12 @@ if __name__ == "__main__":
 
     # Monday is 0, Sunday is 6
 
-    create_new_filtered_table(conn,curs,"filter_weekendss_mornings",(5,6),(10,11))
+    # weekday envenings
+    create_new_filtered_table(conn,curs,"filter_weekday_evening",(0,4),(18,23))
+
+    # work traffic hours
+    create_new_filtered_table(conn,curs,"filter_work_traffic",(0,4),(8,10))
+    create_new_filtered_table(conn,curs,"filter_work_traffic",(0,4),(16,18))
+
+    # weekend chill
+    create_new_filtered_table(conn,curs,"filter_weekend_day",(5,6),(8,20))

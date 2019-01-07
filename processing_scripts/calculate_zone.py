@@ -13,7 +13,7 @@ from shapely import wkt
 
 def calculate_zones_for_pickup(conn, curs):
     taxi_zones = get_info.get_tables_pattern("zones", conn)
-    taxi_drives = get_info.get_tables_pattern("green", conn)
+    taxi_drives = get_info.get_tables_pattern("filter", conn)
 
     #we have only one taxi_zones file
     taxi_zone_name = taxi_zones[0]
@@ -44,7 +44,7 @@ def calculate_zones_for_pickup(conn, curs):
 
 def calculate_zones_for_dropoff(conn, curs):
     taxi_zones = get_info.get_tables_pattern("zones", conn)
-    taxi_drives = get_info.get_tables_pattern("green", conn)
+    taxi_drives = get_info.get_tables_pattern("filter", conn)
 
     # we have only one taxi_zones file
     taxi_zone_name = taxi_zones[0]
@@ -114,4 +114,3 @@ if __name__ == "__main__":
     #calculate_zones_for_dropoff(conn, curs)
     #calculate_zones_for_pickup(conn, curs)
     calculate_zones_for_poi(conn, curs)
-    #calculate_zones_for_pickup(conn, curs)

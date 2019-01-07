@@ -12,7 +12,7 @@ from shapely import geometry
 
 def calculate_zones_for_poi(conn,curs):
     poi = get_info.get_tables_pattern("poi", conn)
-    taxi_drives = get_info.get_tables_pattern("green", conn)
+    taxi_drives = get_info.get_tables_pattern("filter", conn)
 
     # we have only one taxi_zones file
     poi_name = poi[0]
