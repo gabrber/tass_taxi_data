@@ -45,22 +45,28 @@ def calculate_zones_for_poi(conn,curs):
         taxi_drives_dropoff_data['newgeom'] = taxi_drives_dropoff_data['newgeom'].apply(wkt.loads)
 
         #this is variable for assigning poi to taxi_data
+        flag = False
+
         for index, taxi_point in taxi_drives_dropoff_data[['newgeom', 'id', 'Dropoff_zone']].iterrows():
 
 
             for index, poi_d in poi_data[['newgeom', 'PLACEID', 'poi_area']].iterrows():
                 if poi_d['poi_area'] != taxi_point['Dropoff_zone']:
                     break
-                pol = nearest_points(taxi_point['newgeom'], poi_polygon)
-                if poi_d['newgeom'] == pol[1]:
-                    distance = function_measure(poi_d['newgeom'].y, poi_d['newgeom'].x, taxi_point['newgeom'].y, taxi_point['newgeom'].x)
-                    if distance > 50:
-                        out_poi = 0
-                    else:
-                        out_poi = poi_d["PLACEID"]
-                    sql_poi = "UPDATE " + taxi_drives_name + " SET \"Dropoff_poi\" = " + str(out_poi) + " WHERE \"id\" = " + str(taxi_point['id']) + ";"
-                    curs.execute(sql_poi)
-                    print(taxi_point['id'])
+                else:
+                    pol = nearest_points(taxi_point['newgeom'], poi_polygon)
+                    if poi_d['newgeom'] == pol[1]:
+                        distance = function_measure(poi_d['newgeom'].y, poi_d['newgeom'].x, taxi_point['newgeom'].y, taxi_point['newgeom'].x)
+                        if distance > 50:
+                            out_poi = 0
+                        else:
+                            out_poi = poi_d["PLACEID"]
+                        sql_poi = "UPDATE " + taxi_drives_name + " SET \"Dropoff_poi\" = " + str(out_poi) + " WHERE \"id\" = " + str(taxi_point['id']) + ";"
+                        curs.execute(sql_poi)
+                        print(taxi_point['id'])
+                        flag = True
+                if flag == True:
+                    flag = False
                     break
 
         conn.commit()
