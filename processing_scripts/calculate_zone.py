@@ -25,7 +25,7 @@ def calculate_zones_for_pickup(conn, curs):
 
     for taxi_drives_name in taxi_drives:
         # populate point for pickup
-        taxi_drives_pickup_sql = "SELECT ST_AsText(ST_Transform(\"Pickup_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + " limit 5;"
+        taxi_drives_pickup_sql = "SELECT ST_AsText(ST_Transform(\"Pickup_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + ";"
         taxi_drives_pickup_data = pd.read_sql(taxi_drives_pickup_sql, conn)
         taxi_drives_pickup_data['newgeom'] = taxi_drives_pickup_data['newgeom'].apply(wkt.loads)
 
@@ -56,7 +56,7 @@ def calculate_zones_for_dropoff(conn, curs):
 
     for taxi_drives_name in taxi_drives:
         # populate point for dropoff
-        taxi_drives_dropoff_sql = "SELECT ST_AsText(ST_Transform(\"Dropoff_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + " limit 5;"
+        taxi_drives_dropoff_sql = "SELECT ST_AsText(ST_Transform(\"Dropoff_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + ";"
         taxi_drives_dropoff_data = pd.read_sql(taxi_drives_dropoff_sql, conn)
         taxi_drives_dropoff_data['newgeom'] = taxi_drives_dropoff_data['newgeom'].apply(wkt.loads)
 
