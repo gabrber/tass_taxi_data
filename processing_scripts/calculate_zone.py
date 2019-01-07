@@ -75,7 +75,7 @@ def calculate_zones_for_dropoff(conn, curs):
 def calculate_zones_for_poi(conn,curs):
 
     # we get name of tables for taxi drives and taxi zones
-    taxi_zones = get_info.get_tables_pattern("taxi_zones", conn)
+    taxi_zones = get_info.get_tables_pattern("zones", conn)
     pois = get_info.get_tables_pattern("poi", conn)
 
     # we have only one taxi_zones file
@@ -100,28 +100,10 @@ def calculate_zones_for_poi(conn,curs):
             if zone['newgeom'].contains(point['newgeom']) == True:
                 sql = "UPDATE " + poi_name + " SET \"poi_area\" = " + str(zone['gid']) + " WHERE \"PLACEID\" = " + str(point['PLACEID']) + ";"
                 curs.execute(sql)
-                print('Done poi: ' + str(point['PLACEID']))
+                print('Done poi' + str(point['PLACEID']))
                 #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                 break
 
-    conn.commit()
-
-def first_run(conn,curs):
-
-    # ONLY FIRST TIME - Add id to our green_taxi table
-    add_id = "ALTER TABLE green_taxi ADD COLUMN id SERIAL PRIMARY KEY"
-    curs.execute(add_id)
-    conn.commit()
-
-    # add_area poi
-    add_area_poi = "ALTER TABLE poi ADD COLUMN poi_area Integer"
-    curs.execute(add_area_poi)
-    conn.commit()
-
-    create_poi_point_sql = "SELECT AddGeometryColumn('poi', 'poi_point', 4326, 'POINT', 2);"
-    populate_poi_point_sql = "UPDATE poi SET poi_point = ST_SETSRID(ST_MakePoint(\"POI_LONGITUDE\", \"POI_LATITUDE\"), 4326);"
-    curs.execute(create_poi_point_sql)
-    curs.execute(populate_poi_point_sql)
     conn.commit()
 
 if __name__ == "__main__":
@@ -130,9 +112,15 @@ if __name__ == "__main__":
 
     curs = conn.cursor()
 
-#TODO - move first_run to separate script
+    # ONLY FIRST TIME - Add id to our green_taxi table
+    # add_id = "ALTER TABLE green_taxi ADD COLUMN id SERIAL PRIMARY KEY"
+    # curs.execute(add_id)
+    # conn.commit()
 
-    #first_run(conn,curs)
+    # add_area poi
+    #add_area_poi = "ALTER TABLE poi ADD COLUMN poi_area Integer"
+    #curs.execute(add_area_poi)
+    #conn.commit()
 
     #calculate_zones_for_dropoff(conn, curs)
     #calculate_zones_for_pickup(conn, curs)
