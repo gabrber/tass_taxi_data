@@ -38,9 +38,12 @@ def prepare_green_taxi(green_csv, i):
   taxi=pd.read_csv(green_csv,usecols=keep_col)
 
   new_taxi = taxi[keep_col]
+  new_taxi['Pickup_point'] = ""
   new_taxi['Pickup_zone'] = ""
+  new_taxi['Dropoff_point'] = ""
   new_taxi['Dropoff_zone'] = ""
   new_taxi['Dropoff_poi'] = ""
+
   new_taxi['Day_of_week'] = ""
   new_taxi['Pickup_hour'] = ""
 
@@ -51,7 +54,7 @@ def prepare_green_taxi(green_csv, i):
 
   filename = "../data/green-" + str(i)
   new_taxi.to_csv(filename, index=False)
-  #os.remove(green_csv
+  #os.remove(green_csv)
 
 if __name__ == "__main__":
 
