@@ -40,9 +40,7 @@ def prepare_green_taxi(green_csv, i):
   new_taxi = taxi[keep_col]
   new_taxi['Pickup_point'] = ""
   new_taxi['Pickup_zone'] = ""
-  new_taxi['Dropoff_point'] = ""
   new_taxi['Dropoff_zone'] = ""
-  new_taxi['Dropoff_poi'] = ""
 
   new_taxi['Day_of_week'] = ""
   new_taxi['Pickup_hour'] = ""
