@@ -24,7 +24,7 @@ def function_measure(lat1, lon1, lat2, lon2):
 
 def calculate_zones_for_poi(conn,curs):
     poi = get_info.get_tables_pattern("poi", conn)
-    taxi_drives = get_info.get_tables_pattern("green", conn)
+    taxi_drives = get_info.get_tables_pattern("filter", conn)
 
     # we have only one taxi_zones file
     poi_name = poi[0]
