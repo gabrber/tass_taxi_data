@@ -36,7 +36,7 @@ def calculate_zones_for_pickup(conn, curs):
                 if zone['newgeom'].contains(point['newgeom']) == True:
                     sql = "UPDATE " + taxi_drives_name + " SET \"Pickup_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
-                    print('Done pickup'+str(point['id']))
+                    print('Done pickup: '+str(point['id']))
                     #print("UPDATE " + taxi_drives_name + " SET \"Pickup_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                     break
 
@@ -65,7 +65,7 @@ def calculate_zones_for_dropoff(conn, curs):
                 if zone['newgeom'].contains(point['newgeom']) == True:
                     sql = "UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
-                    print('Done dropoff' + str(point['id']))
+                    print('Done dropoff: ' + str(point['id']))
                     #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                     break
 
