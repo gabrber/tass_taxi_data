@@ -32,10 +32,24 @@ def dropoff_to_pickup(conn,curs,table):
     sorted_zone_stats = sorted(zone_stats, key=lambda stat: stat[2], reverse=True)
     return(sorted_zone_stats)
 
+def count_zones_traffic(conn,curs):
+
+    curs.execute(open("sql/count_zones_traffic.sql", "r").read())
+    traffic = curs.fetchall()
+    #print(traffic)
+    new_traffic = []
+    for traffic_stat in traffic:
+        curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[0]) + ";")
+        dropoff = curs.fetchall()
+        curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[1]) + ";")
+        pickup = curs.fetchall()
+        #TODO
+
 
 if __name__ == "__main__":
     conn = get_info.connect_to_db()
 
     curs = conn.cursor()
-    zone_stats = dropoff_to_pickup(conn, curs, "filter_work_traffic")
-    print(zone_stats[0])
+    #zone_stats = dropoff_to_pickup(conn, curs, "filter_work_traffic")
+    #print(zone_stats)
+    count_zones_traffic(conn,curs)
