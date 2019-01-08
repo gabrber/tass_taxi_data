@@ -77,7 +77,7 @@ def calculate_zones_for_poi(conn,curs):
         conn.commit()
 
 
-def calculate_zones_for_poi_2(conn,curs):
+def calculate_poi_for_dropoff(conn,curs):
     poi = get_info.get_tables_pattern("poi", conn)
     taxi_drives = get_info.get_tables_pattern("filter_weekday_evening", conn)
 
@@ -120,4 +120,4 @@ if __name__ == "__main__":
     conn = get_info.connect_to_db()
 
     curs = conn.cursor()
-    calculate_zones_for_poi_2(conn, curs)
+    calculate_poi_for_dropoff(conn, curs)
