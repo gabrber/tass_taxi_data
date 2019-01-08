@@ -69,6 +69,12 @@ def check_like_culture(conn,curs):
 
     return like_culture
 
+def check_weekend_recreation(conn,curs):
+    curs.execute(open("sql/check_top_weekend.sql", "r").read())
+    weekend = curs.fetchall()
+
+    return weekend
+
 
 if __name__ == "__main__":
     conn = get_info.connect_to_db()
@@ -82,3 +88,6 @@ if __name__ == "__main__":
     #like_culture = check_like_culture(conn,curs)
     #dislike_culture = check_dislike_culture(conn,curs)
     #dislike_culture = like_culture[::-1]
+
+    weekend_recr = check_weekend_recreation(conn,curs)
+    print(weekend_recr)
