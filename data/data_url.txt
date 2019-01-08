@@ -1,2 +1,0 @@
-https://data.cityofnewyork.us/api/views/2sug-2wnh/rows.csv?accessType=DOWNLOAD
-https://s3.amazonaws.com/nyc-tlc/trip+data/green_tripdata_2015-05.csv
