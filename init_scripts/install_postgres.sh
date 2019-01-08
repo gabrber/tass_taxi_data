@@ -8,3 +8,6 @@ pip3 install pandas psycopg2 simpledbf shapely geoalchemy2 geopandas
 
 # download Postgis scripts (you could already have it)
 sudo apt-get install -y postgresql-10-postgis-2.4-scripts postgis
+
+# qgis
+# sudo apt-get install -y qgis python-qgis
