@@ -47,11 +47,15 @@ def count_zones_traffic(conn,curs):
     #print(traffic)
     new_traffic = []
     for traffic_stat in traffic:
-        curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[0]) + ";")
-        dropoff = curs.fetchall()
-        curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[1]) + ";")
-        pickup = curs.fetchall()
-        #TODO
+        if not ((traffic_stat[0] is None) or (traffic_stat[1] is None)):
+            curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[0]) + ";")
+            dropoff = curs.fetchall()
+            curs.execute("SELECT geom FROM taxi_zones WHERE gid=" + str(traffic_stat[1]) + ";")
+            pickup = curs.fetchall()
+            data = (traffic_stat[0],pickup,traffic_stat[1],dropoff,traffic_stat[2])
+            new_traffic.append(data)
+
+    return new_traffic
 
 def check_dislike_culture(conn,curs):
     curs.execute(open("sql/dislike_cultural_zones.sql", "r").read())
@@ -72,8 +76,9 @@ if __name__ == "__main__":
     curs = conn.cursor()
     #zone_stats = dropoff_to_pickup(conn, curs, "filter_work_traffic")
     #print(zone_stats)
-    #count_zones_traffic(conn,curs)
-    top_dropoff = check_top_dropoff(conn,curs)
-    like_culture = check_like_culture(conn,curs)
+    traffic_zones = count_zones_traffic(conn,curs)
+    print(traffic_zones)
+    #top_dropoff = check_top_dropoff(conn,curs)
+    #like_culture = check_like_culture(conn,curs)
     #dislike_culture = check_dislike_culture(conn,curs)
-    dislike_culture = like_culture[::-1]
+    #dislike_culture = like_culture[::-1]
