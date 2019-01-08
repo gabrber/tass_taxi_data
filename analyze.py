@@ -3,6 +3,14 @@ import sys
 import get_info
 import pandas as pd
 
+def check_top_dropoff(conn,curs):
+
+    curs.execute(open("sql/check_top_dropoff.sql", "r").read())
+    top_dropoff = curs.fetchall()
+
+    return top_dropoff
+
+
 def dropoff_to_pickup(conn,curs,table):
 
     get_zones = "SELECT gid FROM taxi_zones;"
@@ -45,6 +53,18 @@ def count_zones_traffic(conn,curs):
         pickup = curs.fetchall()
         #TODO
 
+def check_dislike_culture(conn,curs):
+    curs.execute(open("sql/dislike_cultural_zones.sql", "r").read())
+    dislike_culture = curs.fetchall()
+
+    return dislike_culture
+
+def check_like_culture(conn,curs):
+    curs.execute(open("sql/start_cultural_zones.sql", "r").read())
+    like_culture = curs.fetchall()
+
+    return like_culture
+
 
 if __name__ == "__main__":
     conn = get_info.connect_to_db()
@@ -52,4 +72,8 @@ if __name__ == "__main__":
     curs = conn.cursor()
     #zone_stats = dropoff_to_pickup(conn, curs, "filter_work_traffic")
     #print(zone_stats)
-    count_zones_traffic(conn,curs)
+    #count_zones_traffic(conn,curs)
+    top_dropoff = check_top_dropoff(conn,curs)
+    like_culture = check_like_culture(conn,curs)
+    #dislike_culture = check_dislike_culture(conn,curs)
+    dislike_culture = like_culture[::-1]
