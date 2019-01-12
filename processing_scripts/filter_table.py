@@ -3,7 +3,6 @@ import sys
 sys.path.insert(0, '../')
 
 import get_info
-import shapely.wkt
 
 
 def create_new_filtered_table(conn, curs, new_table, days, hours):
@@ -29,11 +28,11 @@ if __name__ == "__main__":
     # Monday is 0, Sunday is 6
 
     # weekday envenings
-    create_new_filtered_table(conn,curs,"filter_weekday_evening",(0,4),(19,21))
+    #create_new_filtered_table(conn,curs,"filter2_weekday_evening",(0,4),(19,21))
 
     # work traffic hours
-    create_new_filtered_table(conn,curs,"filter_work_traffic",(0,4),(8,9))
-    create_new_filtered_table(conn,curs,"filter_work_traffic",(0,4),(17,18))
+    #create_new_filtered_table(conn,curs,"filter2_work_traffic",(0,4),(8,9))
+    #create_new_filtered_table(conn,curs,"filter2_work_traffic",(0,4),(17,18))
 
     # weekend chill
-    create_new_filtered_table(conn,curs,"filter_weekend_day",(5,6),(12,18))
+    #create_new_filtered_table(conn,curs,"filter2_weekend_day",(5,6),(12,18))

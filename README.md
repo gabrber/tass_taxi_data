@@ -25,3 +25,6 @@
 ## Steps4 - obliczenia na tabelach
 1. ./processing_scripts/pre_exercise.py
 2. ./processing_scripts/calculate_zone.py
+
+
+

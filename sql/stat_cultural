@@ -1,4 +1,5 @@
-SELECT filter_weekday_evening."Pickup_zone", taxi_zones."geom" ,poi."poi_point", taxi_zones."zone", COUNT(*) AS counted
+UPDATE result_similarity
+SET cultura COUNT(*) AS counted
 FROM filter_weekday_evening
 INNER JOIN poi ON filter_weekday_evening."Dropoff_poi" = poi."PLACEID"
 INNER JOIN taxi_zones ON filter_weekday_evening."Dropoff_zone" = taxi_zones."gid"

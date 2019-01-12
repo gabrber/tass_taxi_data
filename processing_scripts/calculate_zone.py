@@ -9,6 +9,8 @@ import pandas as pd
 from geoalchemy2.shape import to_shape
 from shapely.geometry import Point
 from shapely import wkt
+import time
+import datetime
 
 
 def calculate_zones_for_pickup(conn, curs):
@@ -23,6 +25,8 @@ def calculate_zones_for_pickup(conn, curs):
     taxi_zone_data = pd.read_sql(taxi_zone_sql, conn)
     taxi_zone_data['newgeom'] = taxi_zone_data['newgeom'].apply(wkt.loads)
 
+    i = 0
+
     for taxi_drives_name in taxi_drives:
         # populate point for pickup
         taxi_drives_pickup_sql = "SELECT ST_AsText(ST_Transform(\"Pickup_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + ";"
@@ -35,7 +39,13 @@ def calculate_zones_for_pickup(conn, curs):
                 if zone['newgeom'].contains(point['newgeom']) == True:
                     sql = "UPDATE " + taxi_drives_name + " SET \"Pickup_zone\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
-                    print('Done pickup: '+str(point['id']))
+                    i += 1
+                    if i % 1000 == 0:
+                        ts = time.time()
+                        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                        print(taxi_drives_name)
+                        print(st)
+                        print('pickup_zone: ' + str(i))
                     #print("UPDATE " + taxi_drives_name + " SET \"Pickup_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                     break
 
@@ -53,6 +63,8 @@ def calculate_zones_for_dropoff(conn, curs):
     taxi_zone_data = pd.read_sql(taxi_zone_sql, conn)
     taxi_zone_data['newgeom'] = taxi_zone_data['newgeom'].apply(wkt.loads)
 
+    i = 0
+
     for taxi_drives_name in taxi_drives:
         # populate point for dropoff
         taxi_drives_dropoff_sql = "SELECT ST_AsText(ST_Transform(\"Dropoff_point\", 4326)) as newgeom,* FROM " + taxi_drives_name + ";"
@@ -64,7 +76,13 @@ def calculate_zones_for_dropoff(conn, curs):
                 if zone['newgeom'].contains(point['newgeom']) == True:
                     sql = "UPDATE " + taxi_drives_name + " SET \"Dropoff_zone\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";"
                     curs.execute(sql)
-                    print('Done dropoff: ' + str(point['id']))
+                    i += 1
+                    if i % 1000 == 0:
+                        ts = time.time()
+                        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                        print(taxi_drives_name)
+                        print(st)
+                        print('dropoff_zone: ' + str(i))
                     #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                     break
 
@@ -93,13 +111,18 @@ def calculate_zones_for_poi(conn,curs):
 
     poi_data = pd.read_sql(poi_sql, conn)
     poi_data['newgeom'] = poi_data['newgeom'].apply(wkt.loads)
-
+    i = 0
     for index2, point in poi_data[['newgeom', 'PLACEID']].iterrows():
         for index1, zone in taxi_zone_data[['newgeom','gid']].iterrows():
             if zone['newgeom'].contains(point['newgeom']) == True:
                 sql = "UPDATE " + poi_name + " SET \"poi_area\" = " + str(zone['gid']) + " WHERE \"PLACEID\" = " + str(point['PLACEID']) + ";"
                 curs.execute(sql)
-                print('Done poi: ' + str(point['PLACEID']))
+                i += 1
+                if i % 1000 == 0:
+                    ts = time.time()
+                    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                    print(st)
+                    print('poi_zone: ' + str(i))
                 #print("UPDATE " + taxi_drives_name + " SET \"Dropoff_area\" = " + str(zone['gid']) + " WHERE id = " + str(point['id']) + ";")
                 break
 
@@ -110,6 +133,6 @@ if __name__ == "__main__":
     conn = get_info.connect_to_db()
     curs = conn.cursor()
 
-    calculate_zones_for_dropoff(conn, curs)
-    calculate_zones_for_pickup(conn, curs)
-    calculate_zones_for_poi(conn, curs)
+    #calculate_zones_for_poi(conn, curs)
+    #calculate_zones_for_dropoff(conn, curs)
+    #calculate_zones_for_pickup(conn, curs)
