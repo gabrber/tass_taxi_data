@@ -41,6 +41,12 @@ def get_top_dropoff(conn):
      dropoff_rank.append(row)
   return dropoff_rank
 
+def db_to_csv(conn, table):
+    query = "SELECT * FROM " + table +";"
+    filename = "data/full/" + table + ".csv"
+    results = pd.read_sql_query(query, conn)
+    results.to_csv(filename, index=False)
+
 if __name__ == "__main__":
 
     conn = connect_to_db()
